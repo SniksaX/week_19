@@ -39,13 +39,13 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Book $book)
     {
-        $book = Cache::remember('book_' . $id, 3600, function () use ($id) {
-            return \App\Models\Book::findOrFail($id); 
+        $cachedBook = Cache::remember('book_' . $book->id, 3600, function () use ($book) {
+            return $book; 
         });
 
-        return new BookResource($book);
+        return new BookResource($cachedBook);
     }
 
     /**
@@ -61,6 +61,9 @@ class BookController extends Controller
         ]);
 
         $book->update($validated);
+
+        Cache::forget('book_' . $book->id);
+
         return new BookResource($book);
     }
 
@@ -69,6 +72,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        Cache::forget('book_' . $book->id);
         $book->delete();
         return response()->noContent();
     }
