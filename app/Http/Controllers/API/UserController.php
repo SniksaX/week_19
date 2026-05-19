@@ -57,6 +57,6 @@ class UserController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json(['message' => 'Déconnexion réussie.']);
+        return response()->json(['message' => 'User Disconnected']);
     }
 }
