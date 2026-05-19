@@ -41,7 +41,7 @@ class UserController extends Controller
         $user = User::firstWhere('email', $request->email);
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Identifiants incorrects.'], 401);
+            return response()->json(['message' => 'Incorrect password or email.'], 401);
         }
 
         $token = $user->createToken('api-token')->plainTextToken;
