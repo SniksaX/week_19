@@ -27,7 +27,7 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User Created',
             'user' => $user
-        ], 200);
+        ], 201);
     }
 
     public function login(Request $request)
