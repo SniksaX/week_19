@@ -1,0 +1,126 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Livres",
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Inscription",
+                "operationId": "584a102470c054e585330c05f7da4bfc",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "name": "Svet",
+                                "email": "svet@mail.com",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Créé"
+                    },
+                    "422": {
+                        "description": "Erreur validation"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Connexion",
+                "operationId": "2526fe2d44c926504aa3663c8f10a15c",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "example": "application/json"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {},
+                            "example": {
+                                "email": "svet@mail.com",
+                                "password": "password123"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Identifiants incorrects"
+                    },
+                    "422": {
+                        "description": "Erreur validation"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Déconnexion",
+                "operationId": "b9c12342da1bfbec9f02fd4e3667ad52",
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "example": "application/json"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succès"
+                    },
+                    "401": {
+                        "description": "Non autorisé"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentification",
+            "description": "Authentification"
+        }
+    ]
+}

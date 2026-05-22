@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Http\Resources\BookResource;
 use Illuminate\Support\Facades\Cache;
+use OpenApi\Attributes as OA;
 
 
 class BookController extends Controller
@@ -14,6 +15,15 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
+    #[OA\Get(
+        path: '/api/books',
+        summary: "Lister les livres",
+        tags: ["Livres"],
+        parameters: [new OA\Parameter(name: 'Accept', in: 'header', example: 'application/json')],
+        responses: [
+            new OA\Response(response: 200, description: 'Succès')
+        ]
+    )]
     public function index()
     {
         // return BookResource::collection(Book::all());

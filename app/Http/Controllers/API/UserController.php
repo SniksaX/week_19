@@ -14,8 +14,9 @@ class UserController extends Controller
     #[OA\Post(
         path: '/api/register',
         summary: "Inscription",
+        tags: ["Authentification"],
         parameters: [new OA\Parameter(name: 'Accept', in: 'header', example: 'application/json')],
-        requestBody: new OA\RequestBody(content: new OA\JsonContent(example: ['name' => 'Test', 'email' => 'test@mail.com', 'password' => 'motdepasse'])),
+        requestBody: new OA\RequestBody(content: new OA\JsonContent(example: ['name' => 'Svet', 'email' => 'svet@mail.com', 'password' => 'password123'])),
         responses: [
             new OA\Response(response: 201, description: 'Créé'),
             new OA\Response(response: 422, description: 'Erreur validation')
@@ -41,6 +42,18 @@ class UserController extends Controller
         ], 201);
     }
 
+    #[OA\Post(
+        path: '/api/login',
+        summary: "Connexion",
+        tags: ["Authentification"],
+        parameters: [new OA\Parameter(name: 'Accept', in: 'header', example: 'application/json')],
+        requestBody: new OA\RequestBody(content: new OA\JsonContent(example: ['email' => 'svet@mail.com', 'password' => 'password123'])),
+        responses: [
+            new OA\Response(response: 200, description: 'Succès'),
+            new OA\Response(response: 401, description: 'Identifiants incorrects'),
+            new OA\Response(response: 422, description: 'Erreur validation')
+        ]
+    )]
     public function login(Request $request)
     {
         $request->validate([
@@ -48,7 +61,6 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
 
-        // $user = User::where('email', $request->email)->first();
         $user = User::firstWhere('email', $request->email);
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
@@ -64,6 +76,17 @@ class UserController extends Controller
         ]);
     }
 
+    #[OA\Post(
+        path: '/api/logout',
+        summary: "Déconnexion",
+        security: [['bearerAuth' => []]],
+        tags: ["Authentification"],
+        parameters: [new OA\Parameter(name: 'Accept', in: 'header', example: 'application/json')],
+        responses: [
+            new OA\Response(response: 200, description: 'Succès'),
+            new OA\Response(response: 401, description: 'Non autorisé')
+        ]
+    )]
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
