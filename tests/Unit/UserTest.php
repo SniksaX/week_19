@@ -1,0 +1,26 @@
+<?php
+
+namespace Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+use App\Models\User;
+
+class UserTest extends TestCase
+{
+
+    public function test_uses_professional_email_returns_true_with_enterprise_email(): void
+    {
+        $user = new User();
+        $user->email = 'john@entreprise.com';
+
+        $this->assertTrue($user->usesProfessionalEmail());
+    }
+
+    public function test_uses_professional_email_returns_false_with_gmail_email(): void
+    {
+        $user = new User();
+        $user->email = 'john@gmail.com';
+
+        $this->assertFalse($user->usesProfessionalEmail());
+    }
+}

@@ -7,9 +7,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use OpenApi\Attributes as OA;
 
 class UserController extends Controller
 {
+    #[OA\Post(
+        path: '/api/register',
+        summary: "Inscription",
+        parameters: [new OA\Parameter(name: 'Accept', in: 'header', example: 'application/json')],
+        requestBody: new OA\RequestBody(content: new OA\JsonContent(example: ['name' => 'Test', 'email' => 'test@mail.com', 'password' => 'motdepasse'])),
+        responses: [
+            new OA\Response(response: 201, description: 'Créé'),
+            new OA\Response(response: 422, description: 'Erreur validation')
+        ]
+    )]
     public function register(Request $request)
     {
         $validated = $request->validate([
